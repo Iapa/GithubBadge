@@ -32,7 +32,9 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
           # fallback to using the latest cache if no exact match is found
 #          - v1-dependencies-
-
+      -run:
+          name: chmod permissions
+          command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -45,6 +47,7 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew lint test
+
       - store_artifacts:
           path: app/build/reports
           destination: reports
